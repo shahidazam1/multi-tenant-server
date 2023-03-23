@@ -20,18 +20,9 @@ export class ProfileService {
       throw new BadRequestException('user Not exists');
     }
 
-    const exist = await this.profileModel.findOne({ userId: user._id });
-
-    if (exist) {
-      throw new BadRequestException('profile already exist');
-    }
-
     let profileDetails = new this.profileModel();
-    profileDetails.firstName = profile.firstName;
-    profileDetails.lastName = profile.lastName;
-    profileDetails.headline = profile.headline;
-    profileDetails.city = profile.city;
-    profileDetails.about = profile.about;
+    profileDetails.address = profile.address;
+
     profileDetails.userId = id;
     await profileDetails.save();
 
@@ -67,21 +58,7 @@ export class ProfileService {
   }
 
   async update(id: string, updateProfile: UpdateProfileDto, userId: string) {
-    const profile = await this.profileModel.findOne({ _id: id });
-
-    if (!profile) {
-      throw new BadRequestException('Profile Does Not Exist');
-    }
-
-    profile.firstName = updateProfile.firstName;
-    profile.lastName = updateProfile.lastName;
-    profile.headline = updateProfile.headline;
-    profile.city = updateProfile.city;
-    profile.about = updateProfile.about;
-    profile.userId = userId;
-    await profile.save();
-
-    return profile;
+    return '';
   }
 
   async remove(id: string) {

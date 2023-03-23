@@ -23,6 +23,6 @@ async function bootstrap() {
   app.use(urlencoded({ extended: true, limit: '50mb' }));
   app.useGlobalInterceptors(new WrapRequestInterceptor());
   app.useGlobalFilters(new UnhandledExceptionFilter());
-  await app.listen(4400);
+  await app.listen(8800);
 }
 bootstrap();

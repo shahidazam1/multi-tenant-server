@@ -7,13 +7,5 @@ export class SignupDto {
 
   @IsNotEmpty()
   @IsString()
-  email: string;
-
-  @IsOptional()
-  @IsString()
-  mobile: string;
-
-  @IsNotEmpty()
-  @IsString()
   password: string;
 }

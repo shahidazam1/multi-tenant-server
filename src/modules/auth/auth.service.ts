@@ -18,27 +18,13 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     @InjectModel(User.name) private userModel: Model<User>,
-    @InjectModel(Profile.name) private profileModel: Model<Profile>,
   ) {}
 
   async signup(signupDto: SignupDto) {
-    const exists = await this.userModel.findOne({ email: signupDto.email });
-
-    if (exists) {
-      throw new BadRequestException('user already exists');
-    }
-
     let user = new this.userModel();
     user.name = signupDto.name;
-    user.email = signupDto.email;
-    user.mobile = signupDto.mobile;
     user.password = await bcrypt.hash(signupDto.password, 10);
     await user.save();
-
-    let profileDetails = new this.profileModel();
-    profileDetails.firstName = signupDto.name;
-    profileDetails.userId = user._id;
-    await profileDetails.save();
 
     const payload = { sub: user._id, userId: user._id };
     const token = this.jwtService.sign(payload);
@@ -48,7 +34,7 @@ export class AuthService {
 
   async signin(signinDto: SigninDto) {
     const exists = await this.userModel.findOne({
-      $or: [{ email: signinDto.userName }, { name: signinDto.userName }],
+      name: signinDto.name,
     });
 
     if (!exists) {
