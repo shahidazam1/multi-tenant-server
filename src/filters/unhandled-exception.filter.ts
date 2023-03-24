@@ -15,7 +15,6 @@ export class UnhandledExceptionFilter<T extends Error>
     if (status && exceptionResponse) {
       return response.status(status).json(exceptionResponse);
     }
-    console.log(exception);
 
     response.status(500).json({
       statusCode: 500,

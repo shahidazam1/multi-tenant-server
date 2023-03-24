@@ -1,21 +1,40 @@
 import { Inject, Injectable, Scope } from '@nestjs/common';
-import {
-  MongooseOptionsFactory,
-  MongooseModuleOptions,
-} from '@nestjs/mongoose';
 import { REQUEST } from '@nestjs/core';
-import { Request } from '@nestjs/common';
-import mongoConfig from 'src/config/mongodb-connection';
+import {
+  MongooseModuleOptions,
+  MongooseOptionsFactory,
+} from '@nestjs/mongoose';
+import { Request } from 'express';
+import { mongoConfig } from 'src/config/mongodb-connection';
+import { ProfileService } from '../profile/profile.service';
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class MongooseConfigService implements MongooseOptionsFactory {
-  constructor(@Inject(REQUEST) private readonly request: Request) {}
+  constructor(
+    @Inject(REQUEST) private readonly request: Request, //private readonly myService: ProfileService,
+  ) {}
 
-  createMongooseOptions(): MongooseModuleOptions {
+  async createMongooseOptions(): Promise<MongooseModuleOptions> {
+    // console.log(data);
+    console.log(this.request.headers);
     return {
-      uri: mongoConfig('test_server').MONGO_URI,
+      uri: mongoConfig('test_server_12').MONGO_URI,
       useNewUrlParser: true,
       useUnifiedTopology: true,
     };
   }
 }
+
+// @Injectable({ scope: Scope.REQUEST })
+// export class MongooseConfigService implements MongooseOptionsFactory {
+//   constructor(@Inject(REQUEST) private readonly request: Request) {}
+
+//   async createMongooseOptions(): Promise<MongooseModuleOptions> {
+//     console.log(this.request.headers);
+//     return {
+//       uri: mongoConfig('test_server_2').MONGO_URI,
+//       useNewUrlParser: true,
+//       useUnifiedTopology: true,
+//     };
+//   }
+// }

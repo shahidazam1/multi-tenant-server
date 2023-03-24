@@ -39,8 +39,9 @@ export class ProfileService {
     return await this.profileModel.findOne({ _id: id });
   }
 
-  async getAll() {
-    return await this.profileModel.find({});
+  getAll() {
+    // return await this.profileModel.find({});
+    return 'hello world';
   }
 
   async getMyProfile(id: string) {

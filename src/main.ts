@@ -5,6 +5,8 @@ import * as compression from 'compression';
 import { json, urlencoded } from 'express';
 import { WrapRequestInterceptor } from './interceptors/wrap-request.interceptor';
 import { UnhandledExceptionFilter } from './filters/unhandled-exception.filter';
+import * as cookieParser from 'cookie-parser';
+import mongoose from 'mongoose';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,10 +21,12 @@ async function bootstrap() {
       },
     }),
   );
+  app.use(cookieParser());
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb' }));
   app.useGlobalInterceptors(new WrapRequestInterceptor());
   app.useGlobalFilters(new UnhandledExceptionFilter());
+  mongoose.set('debug', true);
   await app.listen(8800);
 }
 bootstrap();
