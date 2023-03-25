@@ -6,7 +6,10 @@ import { User, UserSchema } from './schemas/user.schema';
 @Global()
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature(
+      [{ name: User.name, schema: UserSchema }],
+      'admin1',
+    ),
     MongooseModule.forFeature([{ name: Profile.name, schema: ProfileSchema }]),
   ],
   exports: [MongooseModule],

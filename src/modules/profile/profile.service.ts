@@ -9,7 +9,7 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 @Injectable()
 export class ProfileService {
   constructor(
-    @InjectModel(User.name) private userModel: Model<User>,
+    @InjectModel(User.name, 'admin1') private userModel: Model<User>,
     @InjectModel(Profile.name) private profileModel: Model<Profile>,
   ) {}
 

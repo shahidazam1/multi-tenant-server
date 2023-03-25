@@ -4,15 +4,17 @@ import { ProfileModule } from '../profile/profile.module';
 import { ProfileService } from '../profile/profile.service';
 import { MongooseConfigService } from './mognoose.service';
 import { ConfigService } from '@nestjs/config';
-import { MyService } from './user.service';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
+    // MongooseModule.forRootAsync({
+    //   useClass: MongooseConfigService,
+    // }),
     MongooseModule.forRootAsync({
       useClass: MongooseConfigService,
-      imports: [ProfileModule],
+      imports: [AuthModule, ProfileModule],
     }),
   ],
-  providers: [ProfileService],
 })
 export class DbModule {}

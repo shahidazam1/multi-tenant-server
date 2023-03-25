@@ -1,40 +1,26 @@
-import { Response } from 'express';
-import { JwtService } from '@nestjs/jwt';
 import {
-  Injectable,
   BadRequestException,
+  Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { SignupDto } from './dto/sign-up.dto';
+import { JwtService } from '@nestjs/jwt';
+import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
-import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { User } from '../domain/schemas/user.schema';
-import { Connection, Model } from 'mongoose';
-import { SigninDto } from './dto/sign-in.dto';
-import { verifyPassword } from 'src/utils/constants';
-import { Profile } from '../domain/schemas/profile.schema';
 import * as cookie from 'cookie';
-import cookieParser from 'cookie-parser';
-import { send } from 'process';
+import { Model } from 'mongoose';
+import { verifyPassword } from 'src/utils/constants';
+import { User } from '../domain/schemas/user.schema';
+import { SigninDto } from './dto/sign-in.dto';
+import { SignupDto } from './dto/sign-up.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    @InjectModel(User.name) private userModel: Model<User>,
-  ) // @InjectConnection('test1') private readonly db2: Connection,
-  {}
+    @InjectModel(User.name, 'admin1') private userModel: Model<User>, // @InjectConnection('test1') private readonly db2: Connection,
+  ) {}
 
-  async signup(signupDto: SignupDto, response: any) {
-    const cookies = [
-      cookie.serialize('myCookie1', 'myValue1'),
-      cookie.serialize('myCookie2', 'myValue2'),
-    ];
-
-    response.setHeader('Set-Cookie', cookies);
-    response.send();
-    return 'Cookies set successfully';
-
+  async signup(signupDto: SignupDto) {
     let user = new this.userModel();
     user.name = signupDto.name;
     user.database = signupDto.database;
@@ -68,5 +54,10 @@ export class AuthService {
     const token = this.jwtService.sign(payload);
 
     return { token };
+  }
+
+  async sign() {
+    const data = await this.userModel.findOne();
+    return data;
   }
 }

@@ -10,11 +10,8 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('sign-up')
-  signup(@Body() signupDto: SignupDto, @Res() response: Response) {
-    response.cookie('myCookie', 'cookieValue');
-    const data = { message: 'Data returned' };
-    response.status(200).json(data);
-    // return this.authService.signup(signupDto, response);
+  signup(@Body() signupDto: SignupDto) {
+    return this.authService.signup(signupDto);
   }
 
   @Post('sign-in')

@@ -27,6 +27,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new WrapRequestInterceptor());
   app.useGlobalFilters(new UnhandledExceptionFilter());
   mongoose.set('debug', true);
-  await app.listen(8800);
+  await app.listen(880);
 }
 bootstrap();

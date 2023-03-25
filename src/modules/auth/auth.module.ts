@@ -21,5 +21,6 @@ import { database2Config } from 'src/config/mongodb-connection';
   ],
   controllers: [AuthController],
   providers: [JwtStrategy, AuthService],
+  exports: [AuthService],
 })
 export class AuthModule {}
