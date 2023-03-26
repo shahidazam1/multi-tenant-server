@@ -4,5 +4,5 @@ import { REQUEST_STATUS } from 'src/utils/constants';
 export class CreateProfileDto {
   @IsNotEmpty()
   @IsString()
-  address: string;
+  note: string;
 }

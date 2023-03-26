@@ -13,7 +13,6 @@ import {
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
-import { UpdateProfileDto } from './dto/update-profile.dto';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -40,19 +39,5 @@ export class ProfileController {
   @Get(':id')
   findOne(@Param('id') id: string, @Req() req: any) {
     return this.profileService.findOne(id, req.user.id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateProfileDto: UpdateProfileDto,
-    @Req() req: any,
-  ) {
-    return this.profileService.update(id, updateProfileDto, req.user.id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.profileService.remove(id);
   }
 }

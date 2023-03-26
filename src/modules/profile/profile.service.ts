@@ -4,7 +4,6 @@ import { Model } from 'mongoose';
 import { Profile } from '../domain/schemas/profile.schema';
 import { User } from '../domain/schemas/user.schema';
 import { CreateProfileDto } from './dto/create-profile.dto';
-import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class ProfileService {
@@ -21,7 +20,7 @@ export class ProfileService {
     }
 
     let profileDetails = new this.profileModel();
-    profileDetails.address = profile.address;
+    profileDetails.note = profile.note;
 
     profileDetails.userId = id;
     await profileDetails.save();
@@ -39,9 +38,8 @@ export class ProfileService {
     return await this.profileModel.findOne({ _id: id });
   }
 
-  getAll() {
-    // return await this.profileModel.find({});
-    return 'hello world';
+  async getAll() {
+    return await this.profileModel.find();
   }
 
   async getMyProfile(id: string) {
@@ -55,14 +53,6 @@ export class ProfileService {
       { $match: { userId: user._id } },
     ]);
 
-    return profile[0];
-  }
-
-  async update(id: string, updateProfile: UpdateProfileDto, userId: string) {
-    return '';
-  }
-
-  async remove(id: string) {
-    return this.profileModel.remove({ _id: id });
+    return profile;
   }
 }

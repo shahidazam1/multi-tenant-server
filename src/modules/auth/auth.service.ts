@@ -6,9 +6,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
-import * as cookie from 'cookie';
 import { Model } from 'mongoose';
 import { verifyPassword } from 'src/utils/constants';
+import { Tenant } from '../domain/schemas/tenant.schema';
 import { User } from '../domain/schemas/user.schema';
 import { SigninDto } from './dto/sign-in.dto';
 import { SignupDto } from './dto/sign-up.dto';
@@ -17,20 +17,25 @@ import { SignupDto } from './dto/sign-up.dto';
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    @InjectModel(User.name, 'admin1') private userModel: Model<User>, // @InjectConnection('test1') private readonly db2: Connection,
+    @InjectModel(User.name, 'admin1') private userModel: Model<User>,
+    @InjectModel(Tenant.name, 'admin1') private tenantModel: Model<Tenant>,
   ) {}
 
   async signup(signupDto: SignupDto) {
     let user = new this.userModel();
     user.name = signupDto.name;
-    user.database = signupDto.database;
+    user.tenantId = signupDto.tenantId;
     user.password = await bcrypt.hash(signupDto.password, 10);
     await user.save();
 
     const payload = { sub: user._id, userId: user._id };
     const token = this.jwtService.sign(payload);
 
-    return { token };
+    const tenant = await this.tenantModel.findOne({
+      _id: user.tenantId,
+    });
+
+    return { token, tenant };
   }
 
   async signin(signinDto: SigninDto) {
@@ -53,11 +58,35 @@ export class AuthService {
     const payload = { sub: exists._id, userId: exists._id };
     const token = this.jwtService.sign(payload);
 
-    return { token };
+    // const data = await this.userModel.aggregate([
+    //   { $match: { name: signinDto.name } },
+    //   {
+    //     $lookup: {
+    //       from: 'tenants',
+    //       as: 'tenant',
+    //       localField: 'tenantId',
+    //       foreignField: '_id',
+    //     },
+    //   },
+    //   // {
+    //   //   $unwind: {
+    //   //     path: '$tenant',
+    //   //     preserveNullAndEmptyArrays: true,
+    //   //   },
+    //   // },
+    // ]);
+
+    const tenant = await this.tenantModel.findOne({
+      _id: exists.tenantId,
+    });
+
+    return { token, tenant };
   }
 
-  async sign() {
-    const data = await this.userModel.findOne();
+  async sign(id: string) {
+    const data = await this.tenantModel.findOne({
+      _id: id,
+    });
     return data;
   }
 }

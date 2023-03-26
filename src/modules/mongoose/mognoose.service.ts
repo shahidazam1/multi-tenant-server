@@ -1,15 +1,16 @@
-import { Inject, Injectable, Scope } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import {
   MongooseModuleOptions,
   MongooseOptionsFactory,
 } from '@nestjs/mongoose';
 import { Request } from 'express';
-import { Connection, Model } from 'mongoose';
 import { mongoConfig } from 'src/config/mongodb-connection';
 import { AuthService } from '../auth/auth.service';
-import { User } from '../domain/schemas/user.schema';
-import { ProfileService } from '../profile/profile.service';
 
 @Injectable()
 export class MongooseConfigService implements MongooseOptionsFactory {
@@ -19,12 +20,17 @@ export class MongooseConfigService implements MongooseOptionsFactory {
   ) {}
 
   async createMongooseOptions(): Promise<MongooseModuleOptions> {
-    // console.log(data);
-    const data: any = await this.authService.sign();
     console.log(this.request.headers);
-    console.log(data?.database);
+    const tenantId: any = this.request.headers.tenantid;
 
-    let uri = mongoConfig(data?.database).MONGO_URI;
+    const data = await this.authService.sign(tenantId);
+
+    if (!data?.databaseName) {
+      throw new UnprocessableEntityException(
+        'Plese Try again , something went wrong',
+      );
+    }
+    let uri = mongoConfig(data?.databaseName).MONGO_URI;
 
     return {
       uri,

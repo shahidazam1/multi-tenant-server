@@ -6,6 +6,7 @@ import { AuthModule } from 'src/modules/auth/auth.module';
 import { DomainModule } from 'src/modules/domain/domain.module';
 import { DbModule } from 'src/modules/mongoose/mongoose.module';
 import { ProfileModule } from 'src/modules/profile/profile.module';
+import { TenantModule } from 'src/modules/tenant/tenant.module';
 
 ConfigModule.forRoot({ isGlobal: true });
 @Module({
@@ -30,8 +31,8 @@ ConfigModule.forRoot({ isGlobal: true });
     //   connectionName: 'profile',
     //   inject: [ConfigService],
     // }),
-
     DbModule,
+    TenantModule,
     DomainModule,
     AuthModule,
     ProfileModule,

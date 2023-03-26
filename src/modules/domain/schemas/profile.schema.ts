@@ -4,7 +4,7 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 @Schema({ timestamps: true, collection: 'profiles' })
 export class Profile extends Document {
   @Prop()
-  address: string;
+  note: string;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
   userId: string;

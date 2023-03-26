@@ -11,5 +11,5 @@ export class SignupDto {
 
   @IsNotEmpty()
   @IsString()
-  database: string;
+  tenantId: string;
 }
