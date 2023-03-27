@@ -6,18 +6,18 @@ import { MongooseConfigService } from './mognoose.service';
 import { ConfigService } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
 import { mongoConfig2 } from 'src/config/mongodb-connection';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     MongooseModule.forRootAsync({
-      useFactory(config: ConfigService) {
+      useFactory() {
         let uri = mongoConfig2().MONGO_URI;
         return {
           uri,
         };
       },
       connectionName: 'admin1',
-      inject: [ConfigService],
     }),
     MongooseModule.forRootAsync({
       useClass: MongooseConfigService,

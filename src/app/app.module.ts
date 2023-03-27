@@ -1,6 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ScheduleModule } from '@nestjs/schedule';
 import { mongoConfig, mongoConfig2 } from 'src/config/mongodb-connection';
 import { AddressModule } from 'src/modules/address/address.module';
 import { AuthModule } from 'src/modules/auth/auth.module';

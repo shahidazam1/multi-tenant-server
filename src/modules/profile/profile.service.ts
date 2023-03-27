@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { Model } from 'mongoose';
 import { Profile } from '../domain/schemas/profile.schema';
 import { User } from '../domain/schemas/user.schema';
@@ -55,4 +56,13 @@ export class ProfileService {
 
     return profile;
   }
+
+  autoImportSalesforceData() {
+    return 'hello World!';
+  }
+
+  // @Cron(CronExpression.EVERY_SECOND)
+  // autoImportSalesforceData() {
+  //   return 'hello';
+  // }
 }

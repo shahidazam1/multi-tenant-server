@@ -10,11 +10,13 @@ import {
   Req,
   UseInterceptors,
   UploadedFile,
+  Headers,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @UseGuards(JwtAuthGuard)
 @Controller('profile')
