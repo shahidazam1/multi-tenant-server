@@ -1,5 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Address, AddressSchema } from './schemas/address.schema';
 import { Profile, ProfileSchema } from './schemas/profile.schema';
 import { Tenant, TenantSchema } from './schemas/tenant.schema';
 import { User, UserSchema } from './schemas/user.schema';
@@ -16,6 +17,7 @@ import { User, UserSchema } from './schemas/user.schema';
       'admin1',
     ),
     MongooseModule.forFeature([{ name: Profile.name, schema: ProfileSchema }]),
+    MongooseModule.forFeature([{ name: Address.name, schema: AddressSchema }]),
   ],
   exports: [MongooseModule],
 })
