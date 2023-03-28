@@ -7,7 +7,7 @@ import { MyService } from './corn.service';
 @Module({
   imports: [ScheduleModule.forRoot()],
   controllers: [ProfileController],
-  providers: [ProfileService, MyService],
+  providers: [ProfileService],
   exports: [ProfileService],
 })
 export class ProfileModule {}

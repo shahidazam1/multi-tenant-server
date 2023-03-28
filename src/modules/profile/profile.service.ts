@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { Model } from 'mongoose';
+import { Connection, Model } from 'mongoose';
 import { Profile } from '../domain/schemas/profile.schema';
 import { User } from '../domain/schemas/user.schema';
 import { CreateProfileDto } from './dto/create-profile.dto';
@@ -11,6 +11,7 @@ export class ProfileService {
   constructor(
     @InjectModel(User.name, 'admin1') private userModel: Model<User>,
     @InjectModel(Profile.name) private profileModel: Model<Profile>,
+    @InjectConnection() private connection: Connection,
   ) {}
 
   async create(profile: CreateProfileDto, id: string) {
@@ -39,8 +40,13 @@ export class ProfileService {
     return await this.profileModel.findOne({ _id: id });
   }
 
+  async dataa() {
+    return await this.connection.close();
+  }
+
   async getAll() {
-    return await this.profileModel.find();
+    // console.log(this.connection.close());
+    return await this.profileModel.find({});
   }
 
   async getMyProfile(id: string) {
