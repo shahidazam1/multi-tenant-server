@@ -5,6 +5,7 @@ import { Connection, Model } from 'mongoose';
 import { Profile } from '../domain/schemas/profile.schema';
 import { User } from '../domain/schemas/user.schema';
 import { CreateProfileDto } from './dto/create-profile.dto';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class ProfileService {
@@ -26,7 +27,6 @@ export class ProfileService {
 
     profileDetails.userId = id;
     await profileDetails.save();
-
     return profileDetails;
   }
 
@@ -45,8 +45,10 @@ export class ProfileService {
   }
 
   async getAll() {
-    // console.log(this.connection.close());
-    return await this.profileModel.find({});
+    const data = await this.profileModel.find({});
+    this.connection.close();
+
+    return data;
   }
 
   async getMyProfile(id: string) {

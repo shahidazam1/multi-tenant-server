@@ -2,18 +2,23 @@ import {
   Inject,
   Injectable,
   UnprocessableEntityException,
+  OnModuleDestroy,
 } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import {
+  InjectConnection,
   MongooseModuleOptions,
   MongooseOptionsFactory,
 } from '@nestjs/mongoose';
 import { Request } from 'express';
 import { mongoConfig } from 'src/config/mongodb-connection';
 import { AuthService } from '../auth/auth.service';
+import mongoose, { Connection } from 'mongoose';
 
 @Injectable()
-export class MongooseConfigService implements MongooseOptionsFactory {
+export class MongooseConfigService
+  implements MongooseOptionsFactory, OnModuleDestroy
+{
   constructor(
     @Inject(REQUEST) private readonly request: Request,
     private readonly authService: AuthService,
@@ -36,18 +41,14 @@ export class MongooseConfigService implements MongooseOptionsFactory {
       uri,
     };
   }
+
+  // console.log("dsfkjds")
+  sign() {
+    console.log('sign');
+  }
+
+  onModuleDestroy() {
+    console.log('disconnect');
+    mongoose.connection.close();
+  }
 }
-
-// @Injectable({ scope: Scope.REQUEST })
-// export class MongooseConfigService implements MongooseOptionsFactory {
-//   constructor(@Inject(REQUEST) private readonly request: Request) {}
-
-//   async createMongooseOptions(): Promise<MongooseModuleOptions> {
-//     console.log(this.request.headers);
-//     return {
-//       uri: mongoConfig('test_server_2').MONGO_URI,
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     };
-//   }
-// }

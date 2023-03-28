@@ -17,6 +17,7 @@ import { CreateProfileDto } from './dto/create-profile.dto';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { CloseConnectionInterceptor } from 'src/interceptors/close-mongo-connection.interceptor';
 
 @UseGuards(JwtAuthGuard)
 @Controller('profile')
