@@ -42,11 +42,6 @@ export class MongooseConfigService
     };
   }
 
-  // console.log("dsfkjds")
-  sign() {
-    console.log('sign');
-  }
-
   onModuleDestroy() {
     console.log('disconnect');
     mongoose.connection.close();

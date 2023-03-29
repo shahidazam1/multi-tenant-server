@@ -58,24 +58,6 @@ export class AuthService {
     const payload = { sub: exists._id, userId: exists._id };
     const token = this.jwtService.sign(payload);
 
-    // const data = await this.userModel.aggregate([
-    //   { $match: { name: signinDto.name } },
-    //   {
-    //     $lookup: {
-    //       from: 'tenants',
-    //       as: 'tenant',
-    //       localField: 'tenantId',
-    //       foreignField: '_id',
-    //     },
-    //   },
-    //   // {
-    //   //   $unwind: {
-    //   //     path: '$tenant',
-    //   //     preserveNullAndEmptyArrays: true,
-    //   //   },
-    //   // },
-    // ]);
-
     const tenant = await this.tenantModel.findOne({
       _id: exists.tenantId,
     });
