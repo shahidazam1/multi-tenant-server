@@ -14,6 +14,7 @@ import { Request } from 'express';
 import { mongoConfig } from 'src/config/mongodb-connection';
 import { AuthService } from '../auth/auth.service';
 import mongoose, { Connection } from 'mongoose';
+import { Tenant } from '../domain/schemas/tenant.schema';
 
 @Injectable()
 export class MongooseConfigService
@@ -28,13 +29,11 @@ export class MongooseConfigService
     console.log(this.request.headers);
     const tenantId: any = this.request.headers.tenantid;
 
-    const data = await this.authService.sign(tenantId);
-
-    if (!data?.databaseName) {
-      throw new UnprocessableEntityException(
-        'Plese Try again , something went wrong',
-      );
+    let data: Tenant & { _id: mongoose.Types.ObjectId };
+    if (tenantId) {
+      data = await this.authService.sign(tenantId);
     }
+
     let uri = mongoConfig(data?.databaseName).MONGO_URI;
 
     return {

@@ -1,11 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Cron, CronExpression } from '@nestjs/schedule';
 import { Connection, Model } from 'mongoose';
 import { Profile } from '../domain/schemas/profile.schema';
 import { User } from '../domain/schemas/user.schema';
 import { CreateProfileDto } from './dto/create-profile.dto';
-import mongoose from 'mongoose';
 
 @Injectable()
 export class ProfileService {
@@ -46,8 +44,6 @@ export class ProfileService {
 
   async getAll() {
     const data = await this.profileModel.find({});
-    this.connection.close();
-
     return data;
   }
 
@@ -68,9 +64,4 @@ export class ProfileService {
   autoImportSalesforceData() {
     return 'hello World!';
   }
-
-  // @Cron(CronExpression.EVERY_SECOND)
-  // autoImportSalesforceData() {
-  //   return 'hello';
-  // }
 }

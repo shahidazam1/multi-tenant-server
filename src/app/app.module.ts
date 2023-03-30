@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
+import { Module, Scope } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_INTERCEPTOR, REQUEST } from '@nestjs/core';
 import { CloseConnectionInterceptor } from 'src/interceptors/close-mongo-connection.interceptor';
 import { AddressModule } from 'src/modules/address/address.module';
 import { AuthModule } from 'src/modules/auth/auth.module';
@@ -23,6 +23,7 @@ ConfigModule.forRoot({ isGlobal: true });
     {
       provide: APP_INTERCEPTOR,
       useClass: CloseConnectionInterceptor,
+      scope: Scope.REQUEST,
     },
   ],
 })
