@@ -43,4 +43,9 @@ export class ProfileController {
   findOne(@Param('id') id: string, @Req() req: any) {
     return this.profileService.findOne(id, req.user.id);
   }
+
+  @Cron(CronExpression.EVERY_SECOND)
+  async dataFunction() {
+    console.log('hello');
+  }
 }

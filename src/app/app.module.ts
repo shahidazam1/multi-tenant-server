@@ -7,6 +7,7 @@ import { AuthModule } from 'src/modules/auth/auth.module';
 import { DomainModule } from 'src/modules/domain/domain.module';
 import { DbModule } from 'src/modules/mongoose/mongoose.module';
 import { ProfileModule } from 'src/modules/profile/profile.module';
+import { CornModule } from 'src/modules/schedule/corn.module';
 import { TenantModule } from 'src/modules/tenant/tenant.module';
 
 ConfigModule.forRoot({ isGlobal: true });
@@ -18,6 +19,7 @@ ConfigModule.forRoot({ isGlobal: true });
     AuthModule,
     ProfileModule,
     AddressModule,
+    CornModule,
   ],
   providers: [
     {
