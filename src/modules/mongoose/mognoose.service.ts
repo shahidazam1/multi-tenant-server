@@ -1,19 +1,13 @@
-import {
-  Inject,
-  Injectable,
-  UnprocessableEntityException,
-  OnModuleDestroy,
-} from '@nestjs/common';
+import { Inject, Injectable, OnModuleDestroy } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import {
-  InjectConnection,
   MongooseModuleOptions,
   MongooseOptionsFactory,
 } from '@nestjs/mongoose';
 import { Request } from 'express';
+import mongoose from 'mongoose';
 import { mongoConfig } from 'src/config/mongodb-connection';
 import { AuthService } from '../auth/auth.service';
-import mongoose, { Connection } from 'mongoose';
 import { Tenant } from '../domain/schemas/tenant.schema';
 
 @Injectable()

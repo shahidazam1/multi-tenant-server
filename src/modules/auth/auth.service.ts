@@ -69,6 +69,9 @@ export class AuthService {
     const data = await this.tenantModel.findOne({
       _id: id,
     });
+    if (!data) {
+      throw new BadRequestException('Tenant Not Found');
+    }
     return data;
   }
 }

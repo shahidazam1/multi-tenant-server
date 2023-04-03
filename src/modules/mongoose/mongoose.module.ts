@@ -1,11 +1,24 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Connection } from 'mongoose';
 import { mongoConfig2 } from 'src/config/mongodb-connection';
-import { AuthModule } from '../auth/auth.module';
-import { MongooseConfigService } from './mognoose.service';
+import { DBConnectionModule } from '../dbConnections/dbConnections.module';
+import { AuthModule } from './../auth/auth.module';
+import { DatabaseService } from './database.service';
 
+const DATABASE_PROVIDER = {
+  provide: 'DATABASE_CONNECTION',
+  async useFactory(db: DatabaseService): Promise<Connection> {
+    return db.getConnectionDetails();
+  },
+  inject: [DatabaseService],
+};
+
+@Global()
 @Module({
   imports: [
+    DBConnectionModule,
+    AuthModule,
     MongooseModule.forRootAsync({
       useFactory() {
         let uri = mongoConfig2().MONGO_URI;
@@ -15,10 +28,9 @@ import { MongooseConfigService } from './mognoose.service';
       },
       connectionName: 'admin1',
     }),
-    MongooseModule.forRootAsync({
-      useClass: MongooseConfigService,
-      imports: [AuthModule],
-    }),
   ],
+
+  providers: [DATABASE_PROVIDER, DatabaseService],
+  exports: [DATABASE_PROVIDER],
 })
 export class DbModule {}
