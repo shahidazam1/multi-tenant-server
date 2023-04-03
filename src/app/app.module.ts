@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AuthModule } from 'src/modules/auth/auth.module';
 import { CornModule } from 'src/modules/cornJobs/corn.module';
-import { CornService } from 'src/modules/cornJobs/corn.service';
 import { DomainModule } from 'src/modules/domain/domain.module';
 import { DbModule } from 'src/modules/mongoose/mongoose.module';
 import { ProfileModule } from 'src/modules/profile/profile.module';
