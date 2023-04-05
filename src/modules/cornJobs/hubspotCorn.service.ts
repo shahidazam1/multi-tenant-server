@@ -5,14 +5,13 @@ import { DataService } from './data.service';
 
 @Injectable()
 export class HubspotCornService {
-  async getHubspotData(connection: Connection) {
-    const profileModel = connection.model(Profile.name, ProfileSchema);
-    const data = await profileModel.find({});
-    await this.getRes(data, profileModel);
+  async getHubspotData(connection: Connection, models) {
+    const data = await models.profileModel.find({});
+    await this.getRes(data, models);
   }
 
-  async getRes(data, profileModel) {
-    let res = await profileModel.findOne({});
+  async getRes(data, models) {
+    let res = await models.profileModel.findOne({});
     console.log('hello', res);
   }
 }

@@ -21,7 +21,12 @@ export class DataService {
     for (let key of keys) {
       connection = this.dbConnections[key.toString()];
       if (connection) {
-        await this.hubsoptCornService.getHubspotData(connection);
+        const profileModel = connection.model(Profile.name, ProfileSchema);
+        let models = {
+          profileModel: profileModel,
+        };
+
+        await this.hubsoptCornService.getHubspotData(connection, models);
       }
     }
   }
